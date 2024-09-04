@@ -1,0 +1,247 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Read";
+    @model WebApplication3.Models.AcbDashboardViewModel
+
+}
+
+<html>
+<head>
+    <title>My Web Page</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
+    <link href="~/css/site.css" rel="stylesheet">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-2.3.0.min.js"></script>
+    <script src="~/js/gauge.js"></script>
+</head>
+
+<body>
+    <div class="mx-auto h-8/9 w-full   w-full flex   bg-white p-2 ">
+            <div class="flex-col  h-full w-1/3">
+                <div class=" flex-col  h-1/3">
+                    <div class="h-1/3"></div>
+                    <div class="h-2/3  felx justify-center items-center ">
+                        <div class="text-center h-1/3">
+                            <span class="font-semibold text-2xl underline">Hochbehälter</span>
+                        </div>
+                        <div class=" flex h-2/3 flex-grow  align-items-center jsutify-center ">
+                            <div class="w-1/6 h-full "></div>
+                            <div class="  w-1/9 text-center items-center justify-end flex ">
+                                <span class="font-semibold text-2xl ">HB6</span>
+                            </div>
+                            <div class=" h-full w-4/6 p-4  ">
+                                <div class="border border-black bg-gray-300 h-full w-full rounded-lg flex">
+                                    <div class="flex  h-full w-2/3 text-center items-center justify-center">
+                                        <span id="temperature" class="font-semibold text-2xl ">@Model.benchsTotal[0].Temperature.ToString("0.0")</span>
+
+                                    </div>
+                                    <div class="flex   h-full w-1/3 text-center items-center">
+                                        <span class="font-semibold text-2xl ">°C</span>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            <div class=" flex-grow 2xl:h-2/3 xl:h-2/3 object-contain">
+                    <div id="TempGauge" class="h-full w-full"></div>
+                </div>
+            </div>
+
+
+        <div class="grid-cols-1 grid-auto w-2/3  p-4 pb-12 overflow-auto sm">
+                <!-- start grid -->
+            @foreach(var bench in Model.benchsTotal){
+                <div class="border  xl:h-1/6 2xl:h-1/5  w-full flex ">
+                    <div class=" w-1/6 flex items-center border-r-2  border-black justify-center">
+
+                        <button class=" bg-gray-300 rounded">
+                            <div class=" text-4xl font-bold  ">
+                                <a class="text-gray-700 hover:text-blue-600 transition duration-200" asp-area="" asp-controller="Receipt" asp-action="Read" asp-route-benchID="@bench.BenchID">@bench.BenchID</a>
+                                </div>
+                        </button>
+                    </div>
+
+                    <div class="flex-col  w-4/6">
+                        <div class="flex  h-1/3 w-full ">
+                                <div class=" w-1/2 flex ">
+                                    <div class=" h-full w-1/4 items-center justify-center flex  ">
+                                    <div class=" text-2xl ">Total</div>
+                                </div>
+                                    <div class=" h-full w-3/4 p-1 items-center flex justify-center ">
+                                    <div class="border border-black bg-gray-300 h-full flex justify-center items-center w-full">
+                                        <!-- add the time -->
+                                            <span  class="text-2xl text-center  w-2/3 font-bold ">
+                                                @bench.TotalTime.ToString("T")
+                                             
+                                            </span>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                                <div class=" w-1/2 flex ">
+                                    <div class=" h-full w-1/4 items-center justify-center flex  ">
+                                        <div class=" text-2xl ">Rest</div>
+                                    </div>
+                                    <div class=" h-full w-3/4 p-1 items-center flex justify-center ">
+                                        <div class="border border-black bg-gray-300 h-full flex justify-center items-center w-full">
+                                            <!-- add the time -->
+                                            <span class="text-2xl text-center  w-2/3 font-bold ">
+                                                @bench.RestTime.ToString("T")
+                                            </span>
+                                        </div>
+                                    </div>
+                            </div>
+                        </div>
+                            <div class="h-1/3 w-full  flex gap-1">
+
+                                <div class=" flex h-full  w-1/6 ">
+                                    <div class=" h-full w-full items-center justify-center flex  ">
+                                        <div class="w-full h-full font-semibold text-2xl text-center">Rezept</div>
+                                    </div>
+                                </div>
+                                <div class="flex flex-grow border">
+                                    <div class="border w-1/4 flex-column items-center justify-content-center flex">
+                                        <div class="text-center">E</div>    
+                                    </div>
+
+                                    <div class="border w-3/4 flex-column justify-center items-center">
+                                        <div class="text-center text-2xl font-semibold ">
+                                           @bench.Target_Time_Filling
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                      <div class="flex flex-grow border">
+                                    <div class="border w-1/4 flex-column items-center justify-content-center flex">
+                                        <div class="text-center  ">S</div>    
+                                    </div>
+
+                                    <div class="border w-3/4 flex-column justify-center items-center">
+                                        <div class="text-center text-2xl font-semibold ">
+                                            @bench.Target_Time_Bodybuilding
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="flex flex-grow border">
+                                    <div class="border w-1/4 flex-column items-center justify-content-center flex">
+                                        <div class="text-center  ">A</div>
+                                    </div>
+
+                                    <div class="border w-3/4 flex-column justify-center items-center">
+                                        <div class="text-center text-2xl font-semibold ">
+                                            @bench.Target_Time_Draining
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="flex flex-grow border">
+                                    <div class="border w-1/4 flex-column items-center justify-content-center flex">
+                                        <div class="text-center  ">L</div>
+                                    </div>
+
+                                    <div class="border w-3/4 flex-column justify-center items-center">
+                                        <div class="text-center text-2xl font-semibold ">
+                                            @bench.Target_Time_Hardening
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="flex flex-grow border">
+                                    <div class="border w-1/4 flex-column items-center justify-content-center flex">
+                                        <div class="text-center  ">B</div>
+                                    </div>
+
+                                    <div class="border w-3/4 flex-column justify-center items-center">
+                                        <div class="text-center text-2xl font-semibold ">
+                                            @bench.Target_Time_Emptying_pipe
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="flex flex-grow border">
+                                    <div class="border w-1/4 flex-column items-center justify-content-center flex">
+                                        <div class="text-center ">P</div>
+                                    </div>
+
+                                    <div class="border w-3/4 flex-column justify-center items-center">
+                                        <div class="text-center font-semibold text-2xl ">
+                                            @bench.Target_Time_Circulating_Air
+                                        </div>
+                                    </div>
+
+                                </div>
+                               
+
+
+                        </div>
+
+                            <div class=" w-full flex items-center justify-center  ">
+                                <div class=" h-full w-1/5 items-center justify-start flex   ">
+                                    <div class=" text-2xl ">Betrieb</div>
+                                </div>
+                                <div class=" h-full w-3/4 p-1 items-center flex justify-center ">
+                                    <div class="border border-black bg-gray-300 h-full flex justify-center items-center w-full">
+                                        <!-- add the time -->
+                                        <span class="text-2xl text-center  w-2/3 font-bold ">
+                                            @bench.operating_mode
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                    </div>
+
+
+                    <div class=" w-1/6 flex-col border-l-2  border-black">
+                        <div class=" text-2xl text-center h-1/3">Counter</div>
+                        <div class=" flex-grow h-2/3 p-3 items-center justify-center flex">
+                            <div class="border border-2 border-black w-1/2 h-full bg-gray-300 items-center justify-center flex">
+                                <div class="text-center text-2xl font-bold">@bench.Casting_Counter</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+                <!-- end grid -->
+                 
+
+
+
+
+
+
+        </div>
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>
+
+<script src="~/js/gauge.js"></script>
+
+<script>
+
+    TemperatureAcb();
+
+
+
+
+</script>
+<script src="~/js/site.js"></script>

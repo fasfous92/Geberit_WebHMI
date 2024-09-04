@@ -1,0 +1,302 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    @model WebApplication3.Models.ReceiptViewModel
+
+}
+
+<html>
+<head>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, width=device-width" />
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
+    <link href="~/css/jquery-ui.min.css" rel="stylesheet" />
+    <script src="~/js/jquery-ui.js"></script>
+    <script src="~/js/jquery-ui.min.js"></script>
+    <script src="~/js/jquery-ui.js"></script>
+    <link href="~/css/site.css" rel="stylesheet">
+</head>
+<body class="h-screen ">
+    <div class=" h-full  w-full flex   p-2 ">
+
+        <!--Left Side -->
+        <div class="h-full w-1/2  flex-col p-2 border-r-2">
+            <div class="h-1/4 p p-4">
+                <div class="h-full border-2 border-black w-full gap-4 flex p-2 ">
+                    <div class=" h-full w-1/2 xl:space-y-4 lg:space-y-2 flex-col ">
+                        <div class="text-center font-bold ">Bench Nummer</div>
+
+                        <div class=" flex items-center justify-center  ">
+                            <div class="w-2/3   rounded-lg ">
+                                <select id="myDropdown" class=" w-full text- font-bold  text-center bg-gray-300  rounded-lg" onchange="redirectToBench(this)"  >
+                                    <!-- add the intruction for the id of the bench -->
+                                    @foreach (var bench in Model.benchIds)
+                                    {
+                                        if (bench.BenchNumber == Model.benchsTotal.BenchID)
+                                        {
+                                            <option selected value="@bench.BenchNumber">@bench.BenchNumber</option>
+
+                                        }else{
+                                        <option value="@bench.BenchNumber">@bench.BenchNumber</option>
+                                        }
+
+                                    }
+                                   
+                                </select>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <div class="h-full w-1/2 2xl:space-y-4 xl:space-y-2 flex-col"> 
+                        <div class="text-center font-bold ">Operating Mode </div>
+                        <div class="text-center xl:text-lg 2xl:text-xl font-semibold bg-gray-300 rounded-lg  ">@Model.benchsTotal.operating_mode</div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="h-3/4  border-2 border-black flex-col w-full">
+                <div class="h-1/6 w-full  flex">
+                    <div class=" h-1/2 w-1/4 flex items-center justify-center">
+                        <span class="text-center align-center font-bold underline text-2xl ">Rezept</span>
+                    </div>
+                </div>
+
+                <div class="flex-grow h-5/6 flex-col">
+
+
+                    <div class="h-1/3  w-full flex-col 2xl:p-4 xl:p-1">
+                        <div class="border-t-2 border-l-2 border-r-2 border-black h-1/2 w-full flex justify-center items-center">
+                            <div class=" w-1/6 h-full text-center font-bold text-xl  flex justify-center items-center">
+                                <span>Eingieß-zeit</span>
+                            </div>
+
+                            <div class=" w-1/6 h-full text-center font-bold text-xl flex justify-center items-center">
+                                <span>Standzeit-zeit</span>
+                            </div>
+
+                            <div class=" w-1/6 h-full text-center font-bold text-xl flex justify-center items-center">
+                                <span>Ausgieß-zeit</span>
+                            </div>
+
+                            <div class=" w-1/6 h-full text-center font-bold text-xl flex justify-center items-center">
+                                <span>Leeren</span>
+                            </div>
+
+                            <div class=" w-1/6 h-full text-center font-bold text-xl flex justify-center items-center">
+                                <span>Belüften</span>
+                            </div>
+
+                            <div class=" w-1/6 h-full text-center font-bold text-xl flex justify-center items-center">
+                                <span>Pressen</span>
+                            </div>
+
+
+
+                        </div>
+
+                        <div class="border-b-2 border-l-2 border-r-2 border-black h-1/2 w-full p-2 gap-4 flex">
+                            <div class="border bg-gray-300 w-1/6 h-full flex justify-center items-center font-semibold">
+                                <span>    @Model.benchsTotal.Target_Time_Filling      </span>
+                            </div>
+                            <div class="border bg-gray-300 w-1/6 h-full flex justify-center items-center font-semibold">
+                                <span>      @Model.benchsTotal.Target_Time_Hardening    </span>
+                            </div>
+                            <div class="border bg-gray-300 w-1/6 h-full flex justify-center items-center font-semibold">
+                                <span>     @Model.benchsTotal.Target_Time_Draining     </span>
+                            </div>
+                            <div class="border bg-gray-300 w-1/6 h-full flex justify-center items-center font-semibold">
+                                <span>     @Model.benchsTotal.Target_Time_Emptying_pipe     </span>
+                            </div>
+                            <div class="border bg-gray-300 w-1/6 h-full flex justify-center items-center font-semibold">
+                                <span>     @Model.benchsTotal.Target_Time_Circulating_Air     </span>
+                            </div>
+                            <div class="border bg-gray-300 w-1/6 h-full flex justify-center items-center font-semibold ">
+                                <span>      @Model.benchsTotal.Target_Time_Hardening    </span>
+                            </div>
+
+
+
+                        </div>
+
+                    </div>
+
+                    <div class="h-1/3  w-4/6 2xl:p-4 xl:p-1">
+                        <div class="border-t-2 border-l-2 border-r-2 p-2 gap-2 border-black h-1/2 w-full flex justify-start items-start">
+                            <div class=" w-1/4  h-full text-center font-bold text-xl flex justify-center items-center">
+                                <span>Verz.Vg81</span>
+                            </div>
+
+                            <div class=" w-1/4 h-full text-center font-bold text-xl flex justify-center items-center">
+                                <span>Verz.Vg82</span>
+                            </div>
+
+                            <div class=" w-1/4 h-full text-center font-bold text-xl flex justify-center items-center">
+                                <span>Verz.Vg91</span>
+                            </div>
+
+                            <div class=" w-1/4 h-full text-center font-bold text-xl flex justify-center items-center">
+                                <span>Verz.Vg92</span>
+                            </div>
+
+
+
+
+
+                        </div>
+
+                        <div class="border-b-2 border-l-2 border-r-2 border-black h-1/2 w-full p-2 gap-4 flex">
+                            <div class="border bg-gray-300 w-1/4 h-full flex justify-center items-center font-semibold">
+                                <span>    @Model.benchsTotal.Time_Valve_Group_Vg81      </span>
+                            </div>
+                            <div class="border bg-gray-300 w-1/4 h-full flex justify-center items-center font-semibold">
+                                <span>      @Model.benchsTotal.Time_Valve_Group_Vg82    </span>
+                            </div>
+                            <div class="border bg-gray-300 w-1/4 h-full flex justify-center items-center font-semibold">
+                                <span>     @Model.benchsTotal.Time_Valve_Group_Vg91     </span>
+                            </div>
+                            <div class="border bg-gray-300 w-1/4 h-full flex justify-center items-center font-semibold">
+                                <span>     @Model.benchsTotal.Time_Valve_Group_Vg92     </span>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                    <div class="h-1/3  w-full 2xl:p-4 xl:p-1">
+                        <div class="border-t-2 border-l-2 border-r-2 p-2 gap-2 border-black h-1/2 w-full flex justify-start items-start">
+
+
+                            <div class=" w-1/4 h-full text-center font-bold text-xl flex justify-center items-center">
+                                <span>Zeit.Abzapfen</span>
+                            </div>
+
+                            <div class=" w-1/4 h-full text-center font-bold text-xl flex justify-center items-center">
+                                <span>Zeit.Vorfüllen</span>
+                            </div>
+
+                            <div class=" w-1/4 h-full text-center font-bold text-xl flex justify-center items-center">
+                                <span>Zirk.nachPressen</span>
+                            </div>
+                            <div class=" w-1/4  h-full text-center font-bold text-xl flex justify-center items-center">
+                                <span>Zeitver-schiebung</span>
+                            </div>
+
+
+
+
+
+                        </div>
+
+                        <div class="border-b-2 border-l-2 border-r-2 border-black h-1/2 w-full p-2 gap-4 flex">
+                            <div class="border bg-gray-300 w-1/4 h-full flex justify-center items-center font-semibold">
+                                <span>    @Model.benchsTotal.Target_Time_Predraining      </span>
+                            </div>
+                            <div class="border bg-gray-300 w-1/4 h-full flex justify-center items-center font-semibold">
+                                <span>      @Model.benchsTotal.Target_Time_Prefilling_Pipe    </span>
+                            </div>
+                            <div class="border bg-gray-300 w-1/4 h-full flex justify-center items-center font-semibold">
+                                <span>     @Model.benchsTotal.Target_Time_Circulate_air_after_hardening     </span>
+                            </div>
+                            <div class="border bg-gray-300 w-1/4 h-full flex justify-center items-center font-semibold">
+                                <span>     @Model.benchsTotal.Time_Shift_Between_1_To_Last_Mould     </span>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+
+
+
+
+
+
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+
+
+
+        <!--Right Side -->
+        <div class="h-full w-1/2  flex-col p-2 border-l-2 2xl:space-y-0 xl:space-y-2">
+            <div class="2xl:h-1/4 xl:h-1/5  2xl:p-4 xl:p-1 ">
+                
+            </div>
+
+            <div class="2xl:h-3/4 xl:h-4/5 2xl:p-0 xl:p-3 flex-col w-full  justify-center flex align-items-center ">
+                <div class="border-2 border-black w-2/3 h-full ">
+                    <div class=" w-full flex h-1/4 2xl:p-4 xl:p-1">
+                        <div class=" w-2/3 flex justify-center  align-items-center">
+                            <span class="text-2xl font-semibold text-center">Druckluftverbrauch <br> Balken 1/Manuell</span>
+                        </div>
+                        <div class=" w-1/3 flex justify-center align-items-center">
+                            <span class="text-xl w-full bg-gray-300 font-semibold text-center">@Model.benchsTotal.Volhand01</span>
+                        </div>
+
+                    </div>
+
+                    <div class=" w-full flex h-1/4 p-4 ">
+                        <div class=" w-2/3 flex justify-center  align-items-center">
+                            <span class="text-2xl  font-semibold text-center">Druckluftverbrauch <br> Balken 2/Manuell</span>
+                        </div>
+                        <div class=" w-1/3 flex justify-center align-items-center">
+                            <span class="text-xl w-full bg-gray-300 font-semibold  text-center">@Model.benchsTotal.Volhand02</span>
+                        </div>
+
+                    </div>
+
+                    <div class=" w-full flex h-1/4 p-4">
+                        <div class=" w-2/3 flex justify-center  align-items-center">
+                            <span class="text-2xl font-semibold text-center">Druckluftverbrauch <br> Balken 1/Prozess</span>
+                        </div>
+                        <div class=" w-1/3 flex justify-center align-items-center">
+                            <span class="text-xl w-full bg-gray-300 font-semibold text-center">@Model.benchsTotal.Volauto01</span>
+                        </div>
+
+                    </div>
+
+                    <div class=" w-full flex h-1/4 p-4">
+                        <div class=" w-2/3 flex justify-center  align-items-center">
+                            <span class="text-2xl font-semibold text-center">Druckluftverbrauch <br> Balken 2/Prozess</span>
+                        </div>
+                        <div class=" w-1/3 flex justify-center align-items-center">
+                            <span class="text-xl w-full bg-gray-300 font-semibold text-center">@Model.benchsTotal.Volauto02</span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+
+
+            </div>
+
+
+
+
+
+        </div>
+
+    </div>
+
+</body>
+<script>
+    function redirectToBench(dropdown) {
+        var selectedBenchID = dropdown.value;
+        var url = `@Url.Action("Read", "Receipt", new { benchID = "__BENCHID__" })`.replace("__BENCHID__", selectedBenchID);
+        window.location.href = url;
+    }
+</script>
+
+</html>

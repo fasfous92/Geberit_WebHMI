@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="refresh" content="60">
+    <meta name="viewport" content="width=device-width, initial-scale=0.9" />
+    <title>@ViewData["Title"] - WebApplication3</title>
+    <link rel="stylesheet" href="https://cdn.tailwindcss.com/2.2.19/tailwind.min.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/WebApplication3.styles.css" asp-append-version="true" />
+    <link href="https://kendo.cdn.telerik.com/themes/8.2.1/bootstrap/bootstrap-main.css" rel="stylesheet" type="text/css" />
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://unpkg.com/jszip/dist/jszip.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2024.3.806/js/kendo.all.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2024.3.806/js/kendo.aspnetmvc.min.js"></script>
+
+</head>
+<body class="h-screen overflow-hidden ">
+<div class="h-screen  flex-col">
+
+            <div class="bg-white border-b flex h-1/6 border-2 border-300-green ">
+                <div class="container mx-auto flex items-center justify-between p-4">
+                    <a class="flex items-center space-x-2 " asp-area="" asp-controller="Home" asp-action="Index">
+                        <div class="h-1/2 w-1/3">
+                            <img src="~/lib/assets/Geberit_Logo2.png" alt="Geberit Logo" class="h-full w-full object-contain">
+                        </div>
+                    </a>
+                    <div class="hidden lg:flex space-x-6" id="navbarMenu">
+                        <ul class="flex space-x-6">
+                            <li>
+                                <a class="text-gray-700 hover:text-blue-600 transition duration-200" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            </li>
+                            <li>
+                                <a class="text-gray-700 hover:text-blue-600 transition duration-200" asp-area="" asp-controller="CeratusDahsboard" asp-action="Read">Ceratus</a>
+                            </li>
+                            <li>
+                                <a class="text-gray-700 hover:text-blue-600 transition duration-200" asp-area="" asp-controller="AcbDahsboard" asp-action="Read">ACB</a>
+                            </li>
+                 
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        <div class="overflow-none   h-5/6  ">
+            <main role="main" class="  h-full">
+                @RenderBody()
+            </main>
+    </div>
+</div>
+</body>
+
+</html>
