@@ -7,11 +7,11 @@ using WebApplication3.Models.Entities.Ceratus;
 
 namespace WebApplication3.Controllers
 {
-    public class CeratusDahsboardController : Controller
+    public class CeratusDashboardController : Controller
 
     {
         private readonly CeratusDbContext dbContext;
-        public CeratusDahsboardController(CeratusDbContext dbContext)
+        public CeratusDashboardController(CeratusDbContext dbContext)
         {
             this.dbContext = dbContext;
         }

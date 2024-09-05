@@ -1,0 +1,289 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+
+
+    ViewData["Title"] = "Readfilter";
+    @model WebApplication3.Models.AcbDashboardMemViewModel
+}
+
+
+<html>
+    <head>
+        <title>My Web Page</title>
+        <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
+        <link href="~/css/site.css" rel="stylesheet">
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+        <script src="https://cdn.plot.ly/plotly-2.3.0.min.js"></script>
+        <script src="~/js/gauge.js"></script>
+</head>
+
+    <body>
+        <div class=" h-full w-full gap-2   flex   bg-white p-2 ">
+            <div class="flex-col  h-full w-1/3 border-2   ">
+                <div class=" flex-col  h-full pt-4">
+                    <div class="h-full  felx space-y-4 justify-center items-center  ">
+                        <div class="text-center flex-shrink ">
+                            <span class="font-semibold text-2xl underline">ACB_Memory</span>
+                        </div>
+                        <div class=" flex flex-fit    ">
+                            <div class="  w-1/2 text-center items-center  justify-center flex ">
+                                <span class="font-semibold text-2xl ">Bench Number</span>
+                            </div>
+                            <div class=" w-1/5 flex items-center justify-center  ">
+                                <div class="w-full   rounded-lg ">
+                                    <select id="myDropdown" class=" w-full text- font-bold  text-center bg-gray-300  rounded-lg" onchange="redirectToBench(this)">
+                                        <!-- add the intruction for the id of the bench -->
+                                        @foreach (var bench in Model.benchNumber)
+                                        {
+
+                                            if (bench.BenchNumber == Model.SelectedBench)
+                                            {
+                                                <option selected value="@bench.BenchNumber">@bench.BenchNumber</option>
+
+                                            }
+                                            else
+                                            {
+                                                <option value="@bench.BenchNumber">@bench.BenchNumber</option>
+                                            }
+
+                                        }
+
+                                    </select>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <div class=" flex flex-fit    ">
+                            <div class="  w-1/2 text-center items-center  justify-center flex ">
+                                <span class="font-semibold text-2xl ">Date</span>
+                            </div>
+                            <div class=" w-1/4 flex items-center justify-center  ">
+                                <div class="w-full    ">
+                                    <input id="idDate" class="border-1 border-black bg-gray-300 rounded-lg font-semibold" type="date" value="@Model.SelectedDate.ToString("yyyy-MM-dd")" />
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <div class=" w-full flex flex-fit align-items-center  justify-center    ">
+                            <div class="  w-1/2 text-center items-center  justify-center flex ">
+                                <button onclick="redirectToResult('myDropdown','idDate')" class="w-full font-semibold text-2xl border border-black rounded-lg bg-gray-300 hover:bg-gray-400">Search</button>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+
+
+
+            <div class="grid-cols-1 grid-auto w-2/3 border h-full border space-y-2  pb-2 overflow-auto sm">
+                @foreach (var recipe in Model.benchsCast) { 
+                        <div class="h-1/2  border-2 border-black flex-col w-full">
+                            <div class="h-1/6 w-full  flex xl:gap-4">
+                                <div class=" h-1/2 w-1/4 flex 2xL:pl-4 xl:pl-0 ">
+                                    <span class=" font-bold underline w-full 2xL:pl-4 xl:pl-0 text-2xl  ">Rezept</span>
+                                </div>
+                                <div class=" h-1/2 w-1/4 flex 2xL:pl-2 xl:pl-0">
+                                    <span class="text-center align-center font-bold underline text-2xl ">BenchNumber: </span>
+                                    <span class="text-center align-center font-semibold  text-2xl "> &nbsp; @recipe.BenchID</span>
+                                </div>
+                                <div class=" h-1/2 w-1/4 flex 2xL:pl-2 xl:pl-0">
+                                    <span class="text-center align-center font-bold underline text-2xl ">Timestamp: </span>
+                                    <span class="text-center align-center font-semibold  text-2xl ">
+                                        &nbsp; @recipe.Timestampcol.ToString("T")
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="flex-grow h-5/6 flex-col">
+
+
+                                <div class="h-1/3  w-full flex-col 2xl:p-4 xl:p-1">
+                                    <div class="border-t-2 border-l-2 border-r-2  h-1/2 w-full flex justify-center items-center">
+                                        <div class=" w-1/6 h-full text-center font-bold text-xl  flex justify-center items-center">
+                                            <span>Eingieß-zeit</span>
+                                        </div>
+
+                                        <div class=" w-1/6 h-full text-center font-bold text-xl flex justify-center items-center">
+                                            <span>Standzeit-zeit</span>
+                                        </div>
+
+                                        <div class=" w-1/6 h-full text-center font-bold text-xl flex justify-center items-center">
+                                            <span>Ausgieß-zeit</span>
+                                        </div>
+
+                                        <div class=" w-1/6 h-full text-center font-bold text-xl flex justify-center items-center">
+                                            <span>Leeren</span>
+                                        </div>
+
+                                        <div class=" w-1/6 h-full text-center font-bold text-xl flex justify-center items-center">
+                                            <span>Belüften</span>
+                                        </div>
+
+                                        <div class=" w-1/6 h-full text-center font-bold text-xl flex justify-center items-center">
+                                            <span>Pressen</span>
+                                        </div>
+
+
+
+                                    </div>
+
+                                    <div class="border-b-2 border-l-2 border-r-2  h-1/2 w-full p-2 gap-4 flex">
+                                        <div class="border bg-gray-300 w-1/6 h-full flex justify-center items-center font-semibold">
+                                            <span>    @recipe.Target_Time_Filling      </span>
+                                        </div>
+                                        <div class="border bg-gray-300 w-1/6 h-full flex justify-center items-center font-semibold">
+                                            <span>      @recipe.Target_Time_Hardening    </span>
+                                        </div>
+                                        <div class="border bg-gray-300 w-1/6 h-full flex justify-center items-center font-semibold">
+                                            <span>     @recipe.Target_Time_Draining     </span>
+                                        </div>
+                                        <div class="border bg-gray-300 w-1/6 h-full flex justify-center items-center font-semibold">
+                                            <span>     @recipe.Target_Time_Emptying_pipe     </span>
+                                        </div>
+                                        <div class="border bg-gray-300 w-1/6 h-full flex justify-center items-center font-semibold">
+                                            <span>     @recipe.Target_Time_Circulating_Air     </span>
+                                        </div>
+                                        <div class="border bg-gray-300 w-1/6 h-full flex justify-center items-center font-semibold ">
+                                            <span>      @recipe.Target_Time_Hardening    </span>
+                                        </div>
+
+
+
+                                    </div>
+
+                                </div>
+
+                                <div class="h-1/3  w-4/6 2xl:p-4 xl:p-1">
+                                    <div class="border-t-2 border-l-2 border-r-2 p-2 gap-2  h-1/2 w-full flex justify-start items-start">
+                                        <div class=" w-1/4  h-full text-center font-bold text-xl flex justify-center items-center">
+                                            <span>Verz.Vg81</span>
+                                        </div>
+
+                                        <div class=" w-1/4 h-full text-center font-bold text-xl flex justify-center items-center">
+                                            <span>Verz.Vg82</span>
+                                        </div>
+
+                                        <div class=" w-1/4 h-full text-center font-bold text-xl flex justify-center items-center">
+                                            <span>Verz.Vg91</span>
+                                        </div>
+
+                                        <div class=" w-1/4 h-full text-center font-bold text-xl flex justify-center items-center">
+                                            <span>Verz.Vg92</span>
+                                        </div>
+
+
+
+
+
+                                    </div>
+
+                                    <div class="border-b-2 border-l-2 border-r-2  h-1/2 w-full p-2 gap-4 flex">
+                                        <div class="border bg-gray-300 w-1/4 h-full flex justify-center items-center font-semibold">
+                                            <span>    @recipe.Time_Valve_Group_Vg81      </span>
+                                        </div>
+                                        <div class="border bg-gray-300 w-1/4 h-full flex justify-center items-center font-semibold">
+                                            <span>      @recipe.Time_Valve_Group_Vg82    </span>
+                                        </div>
+                                        <div class="border bg-gray-300 w-1/4 h-full flex justify-center items-center font-semibold">
+                                            <span>     @recipe.Time_Valve_Group_Vg91     </span>
+                                        </div>
+                                        <div class="border bg-gray-300 w-1/4 h-full flex justify-center items-center font-semibold">
+                                            <span>     @recipe.Time_Valve_Group_Vg92     </span>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+
+                                <div class="h-1/3  w-full 2xl:p-4 xl:p-1">
+                                    <div class="border-t-2 border-l-2 border-r-2 p-2 gap-2  h-1/2 w-full flex justify-start items-start">
+
+
+                                        <div class=" w-1/4 h-full text-center font-bold text-xl flex justify-center items-center">
+                                            <span>Zeit.Abzapfen</span>
+                                        </div>
+
+                                        <div class=" w-1/4 h-full text-center font-bold text-xl flex justify-center items-center">
+                                            <span>Zeit.Vorfüllen</span>
+                                        </div>
+
+                                        <div class=" w-1/4 h-full text-center font-bold text-xl flex justify-center items-center">
+                                            <span>Zirk.nachPressen</span>
+                                        </div>
+                                        <div class=" w-1/4  h-full text-center font-bold text-xl flex justify-center items-center">
+                                            <span>Zeitver-schiebung</span>
+                                        </div>
+
+
+
+
+
+                                    </div>
+
+                                    <div class="border-b-2 border-l-2 border-r-2 h-1/2 w-full p-2 gap-4 flex">
+                                        <div class="border bg-gray-300 w-1/4 h-full flex justify-center items-center font-semibold">
+                                            <span>    @recipe.Target_Time_Predraining      </span>
+                                        </div>
+                                        <div class="border bg-gray-300 w-1/4 h-full flex justify-center items-center font-semibold">
+                                            <span>      @recipe.Target_Time_Prefilling_Pipe    </span>
+                                        </div>
+                                        <div class="border bg-gray-300 w-1/4 h-full flex justify-center items-center font-semibold">
+                                            <span>     @recipe.Target_Time_Circulate_air_after_hardening     </span>
+                                        </div>
+                                        <div class="border bg-gray-300 w-1/4 h-full flex justify-center items-center font-semibold">
+                                            <span>     @recipe.Time_Shift_Between_1_To_Last_Mould     </span>
+                                        </div>
+
+
+                                    </div>
+
+
+                                </div>
+
+
+                            </div>
+                        </div>
+                 }
+
+
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+        </div>
+
+
+    </body>
+</html>
+
+
+<script>
+    function redirectToResult(iddropdown, idDate) {
+        var selectedBenchID = document.getElementById(iddropdown).value;
+        var selectedDate = document.getElementById(idDate).value;
+        console.log(selectedBenchID);
+        console.log(selectedDate);
+        var url = '@Html.Raw(Url.Action("Readfilter", "AcbDashboardMem", new { benchID = "__BENCHID__" , date = "__DATE__" }))';
+        url = url.replace("__BENCHID__", selectedBenchID).replace("__DATE__", selectedDate);
+          window.location.href = url;
+    }
+</script>
+<script src="~/js/site.js"></script>

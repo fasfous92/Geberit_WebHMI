@@ -5,6 +5,7 @@ using WebApplication3.Data;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<AcbDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("AcbConnection")));

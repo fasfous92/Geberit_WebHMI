@@ -10,6 +10,11 @@ namespace WebApplication4.Controllers
             return View();
         }
 
+        public IActionResult test()
+        {
+            return View();
+        }
+
 
 
 

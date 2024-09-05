@@ -6,10 +6,10 @@ using WebApplication3.Models.Entities.ACB;
 
 namespace WebApplication3.Controllers
 {
-    public class AcbDahsboardController : Controller
+    public class AcbDashboardController : Controller
     {
         private readonly AcbDbContext dbContext;
-        public AcbDahsboardController(AcbDbContext dbContext)
+        public AcbDashboardController(AcbDbContext dbContext)
         {
             this.dbContext = dbContext;
         }

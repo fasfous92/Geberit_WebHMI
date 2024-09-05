@@ -1,0 +1,18 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+
+<h1>Test</h1>
+<input type="Time"/>
+<script>
+function logInputValue() {
+  var inputElement = document.querySelector('input[type="Time"]');
+  inputElement.addEventListener('change', function() {
+    console.log(inputElement.value);
+  });
+}
+    logInputValue();
+</script>
